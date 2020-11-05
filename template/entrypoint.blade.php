@@ -49,8 +49,16 @@ if [ -n "${ENTRYPOINT}" ] && [ -f "${ENTRYPOINT}" ]; then
     bash "${ENTRYPOINT}"
 fi
 
-if [ -n "${CURRENT_USER}" ] && [ "${CURRENT_USER}" != "0" ]; then
-    exec su-exec kool "${RUN}" "${@}"
+if [ "$1" = "bash" ] || [ "$1" = "java" ] || [ "$1" = "jshell" ]; then
+  if [ -n "${CURRENT_USER}" ] && [ "${CURRENT_USER}" != "0" ]; then
+    exec su-exec kool "${@}"
+  else
+    exec "${@}"
+  fi
 else
+  if [ -n "${CURRENT_USER}" ] && [ "${CURRENT_USER}" != "0" ]; then
+    exec su-exec kool "${RUN}" "${@}"
+  else
     exec "${RUN}" "${@}"
+  fi
 fi
