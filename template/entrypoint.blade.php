@@ -3,7 +3,7 @@ set -e
 
 # Run as current user
 CURRENT_USER=${ASUSER:-${UID:-0}}
-VM_OPTIONS=$(< /kool/kool.vmoptions grep -Ev "^#.*")
+VM_OPTIONS=$(< /kool/kool.vmoptions grep -Ev "^(#.*|.*=$)")
 @if ($prod)
 RUN="java ${VM_OPTIONS} ${JAVA_OPTIONS} -jar ${JAR_FILE}"
 @else ($prod)
@@ -49,7 +49,7 @@ if [ -n "${ENTRYPOINT}" ] && [ -f "${ENTRYPOINT}" ]; then
     bash "${ENTRYPOINT}"
 fi
 
-if [ "$1" = "bash" ] || [ "$1" = "java" ] || [ "$1" = "jshell" ]; then
+if [ "$1" = "bash" ] || [ "$1" = "java" ] || [ "$1" = "jshell" ] || [ "$1" = "mvn" ]  || [ "$1" = "gradle" ]; then
   if [ -n "${CURRENT_USER}" ] && [ "${CURRENT_USER}" != "0" ]; then
     exec su-exec kool "${@}"
   else

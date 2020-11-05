@@ -34,10 +34,10 @@ jobs:
             ${{ matrix.version }}${{ matrix.type }}
       - name: Tests
         run: |
-          docker run kooldev/java:${{ matrix.version }}${{ matrix.type }} java --version
+          docker run kooldev/java:${{ matrix.version }}${{ matrix.type }} java -version
           if [ -e ${{ matrix.type }} ]; then
-            docker run kooldev/java:${{ matrix.version }}${{ matrix.type }} mvn --version
-            docker run kooldev/java:${{ matrix.version }}${{ matrix.type }} gradle --version
+            docker run kooldev/java:${{ matrix.version }}${{ matrix.type }} mvn -version
+            docker run kooldev/java:${{ matrix.version }}${{ matrix.type }} gradle -version
           fi
 
       - name: Login to DockerHub
