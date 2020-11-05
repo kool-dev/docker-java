@@ -27,7 +27,8 @@ RUN adduser -D -u 1337 kool \
     # dockerize
     && curl -L https://github.com/jwilder/dockerize/releases/download/v0.6.1/dockerize-alpine-linux-amd64-v0.6.1.tar.gz | tar xz \
     && mv dockerize /usr/local/bin/dockerize \
-    && apk add --no-cache tzdata \
+    # deps
+    && apk add --no-cache su-exec bash shadow tzdata \
     && apk del .build-deps \
     && rm -rf /var/cache/apk/* /tmp/* /home/kool/.composer/cache
 
