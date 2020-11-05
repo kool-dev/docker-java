@@ -1,0 +1,47 @@
+{
+    "output": ".",
+    "builds": [
+        {
+            "name": "8",
+            "data": {
+                "from": "openjdk:8-jdk-alpine",
+                "prod": false
+            },
+            "files": [
+                {
+                    "name": "Dockerfile",
+                    "path": "template/Dockerfile"
+                },
+                {
+                    "name": "entrypoint",
+                    "path": "template/entrypoint"
+                },
+                {
+                    "name": "kool.vmoptions",
+                    "path": "template/kool-vmoptions"
+                }
+            ]
+        },
+        {
+            "name": "8-prod",
+            "data": {
+                "from": "openjdk:8-jre-alpine",
+                "prod": true
+            },
+            "files": [
+                {
+                    "name": "Dockerfile",
+                    "path": "template/Dockerfile"
+                },
+                {
+                    "name": "entrypoint",
+                    "path": "template/entrypoint"
+                },
+                {
+                    "name": "kool.vmoptions",
+                    "path": "template/kool-vmoptions"
+                }
+            ]
+        }
+    ]
+}
