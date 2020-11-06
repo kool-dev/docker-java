@@ -1,4 +1,4 @@
-FROM openjdk:8-jre-alpine
+FROM openjdk:15-oraclelinux7
 
 ENV ASUSER='' \
     UID='' \
@@ -17,19 +17,19 @@ ENV ASUSER='' \
     ENTRYPOINT='' \
     JAR_FILE='/app/application.jar'
 
+ENV GRADLE_HOME /usr/local/gradle
+ENV PATH ${GRADLE_HOME}/bin:${PATH}
+
 WORKDIR /app
 
-RUN adduser -D -u 1337 kool \
-    && echo $TZ > /etc/timezone \
+RUN echo $TZ > /etc/timezone \
     # build-deps
-    && apk add --no-cache --virtual .build-deps curl libarchive-tools \
+    && yum install -y unzip \
     # dockerize
     && curl -L https://github.com/jwilder/dockerize/releases/download/v0.6.1/dockerize-alpine-linux-amd64-v0.6.1.tar.gz | tar xz \
     && mv dockerize /usr/local/bin/dockerize \
-    # deps
-    && apk add --no-cache su-exec bash shadow tzdata \
-    && apk del .build-deps \
-    && rm -rf /var/cache/apk/* /tmp/*
+    && yum remove -y unzip \
+    && rm -rf /var/cache/yum/* /tmp/*
 
 COPY kool.vmoptions /kool/kool.tmpl
 COPY entrypoint /kool/entrypoint

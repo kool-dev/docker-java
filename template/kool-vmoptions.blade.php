@@ -1,6 +1,10 @@
 -server
 -Xms@{{ .Env.VM_OPTIONS_XMS }} -Xmx@{{ .Env.VM_OPTIONS_XMX }}
+@if ($version >= 8)
 -XX:MaxMetaspaceSize=@{{ .Env.VM_OPTIONS_MAX_METASPACE_SIZE }}
+@else
+-XX:PermSize=@{{ .Env.VM_OPTIONS_PERM_SIZE }} -XX:MaxPermSize=@{{ .Env.VM_OPTIONS_PERM_SIZE }}
+@endif
 -Xmn@{{ .Env.VM_OPTIONS_XMN }}
 -XX:SurvivorRatio=@{{ .Env.VM_OPTIONS_SURVIVOR_RATIO }}
 -XX:+UseConcMarkSweepGC -XX:+CMSParallelRemarkEnabled

@@ -2,15 +2,104 @@
     "output": ".",
     "builds": [
         {
-            "name": "8",
+            "name": "7",
             "data": {
-                "from": "openjdk:8-jdk-alpine",
+                "from": "openjdk:7-jdk-alpine",
+                "version": 7,
                 "prod": false
             },
             "files": [
                 {
                     "name": "Dockerfile",
-                    "path": "template/Dockerfile"
+                    "path": "template/Dockerfile-alpine"
+                },
+                {
+                    "name": "entrypoint",
+                    "path": "template/entrypoint-kool"
+                },
+                {
+                    "name": "kool.vmoptions",
+                    "path": "template/kool-vmoptions"
+                }
+            ]
+        },
+        {
+            "name": "7-prod",
+            "data": {
+                "from": "openjdk:7-jre-alpine",
+                "version": 7,
+                "prod": true
+            },
+            "files": [
+                {
+                    "name": "Dockerfile",
+                    "path": "template/Dockerfile-alpine"
+                },
+                {
+                    "name": "entrypoint",
+                    "path": "template/entrypoint-kool"
+                },
+                {
+                    "name": "kool.vmoptions",
+                    "path": "template/kool-vmoptions"
+                }
+            ]
+        },
+        {
+            "name": "8",
+            "data": {
+                "from": "openjdk:8-jdk-alpine",
+                "version": 8,
+                "prod": false
+            },
+            "files": [
+                {
+                    "name": "Dockerfile",
+                    "path": "template/Dockerfile-alpine"
+                },
+                {
+                    "name": "entrypoint",
+                    "path": "template/entrypoint-kool"
+                },
+                {
+                    "name": "kool.vmoptions",
+                    "path": "template/kool-vmoptions"
+                }
+            ]
+        },
+        {
+            "name": "8-prod",
+            "data": {
+                "from": "openjdk:8-jre-alpine",
+                "version": 8,
+                "prod": true
+            },
+            "files": [
+                {
+                    "name": "Dockerfile",
+                    "path": "template/Dockerfile-alpine"
+                },
+                {
+                    "name": "entrypoint",
+                    "path": "template/entrypoint-kool"
+                },
+                {
+                    "name": "kool.vmoptions",
+                    "path": "template/kool-vmoptions"
+                }
+            ]
+        },
+        {
+            "name": "9",
+            "data": {
+                "from": "openjdk:9-jdk-slim",
+                "version": 9,
+                "prod": false
+            },
+            "files": [
+                {
+                    "name": "Dockerfile",
+                    "path": "template/Dockerfile-slim"
                 },
                 {
                     "name": "entrypoint",
@@ -23,15 +112,324 @@
             ]
         },
         {
-            "name": "8-prod",
+            "name": "9-prod",
             "data": {
-                "from": "openjdk:8-jre-alpine",
+                "from": "openjdk:9-jre-slim",
+                "version": 9,
                 "prod": true
             },
             "files": [
                 {
                     "name": "Dockerfile",
-                    "path": "template/Dockerfile"
+                    "path": "template/Dockerfile-slim"
+                },
+                {
+                    "name": "entrypoint",
+                    "path": "template/entrypoint"
+                },
+                {
+                    "name": "kool.vmoptions",
+                    "path": "template/kool-vmoptions"
+                }
+            ]
+        },
+        {
+            "name": "10",
+            "data": {
+                "from": "openjdk:10-jdk-slim",
+                "version": 10,
+                "prod": false
+            },
+            "files": [
+                {
+                    "name": "Dockerfile",
+                    "path": "template/Dockerfile-slim"
+                },
+                {
+                    "name": "entrypoint",
+                    "path": "template/entrypoint"
+                },
+                {
+                    "name": "kool.vmoptions",
+                    "path": "template/kool-vmoptions"
+                }
+            ]
+        },
+        {
+            "name": "10-prod",
+            "data": {
+                "from": "openjdk:10-jre-slim",
+                "version": 10,
+                "prod": true
+            },
+            "files": [
+                {
+                    "name": "Dockerfile",
+                    "path": "template/Dockerfile-slim"
+                },
+                {
+                    "name": "entrypoint",
+                    "path": "template/entrypoint"
+                },
+                {
+                    "name": "kool.vmoptions",
+                    "path": "template/kool-vmoptions"
+                }
+            ]
+        },
+        {
+            "name": "11",
+            "data": {
+                "from": "openjdk:11-jdk-slim",
+                "version": 11,
+                "prod": false
+            },
+            "files": [
+                {
+                    "name": "Dockerfile",
+                    "path": "template/Dockerfile-slim"
+                },
+                {
+                    "name": "entrypoint",
+                    "path": "template/entrypoint"
+                },
+                {
+                    "name": "kool.vmoptions",
+                    "path": "template/kool-vmoptions"
+                }
+            ]
+        },
+        {
+            "name": "11-prod",
+            "data": {
+                "from": "openjdk:11-jre-slim",
+                "version": 11,
+                "prod": true
+            },
+            "files": [
+                {
+                    "name": "Dockerfile",
+                    "path": "template/Dockerfile-slim"
+                },
+                {
+                    "name": "entrypoint",
+                    "path": "template/entrypoint"
+                },
+                {
+                    "name": "kool.vmoptions",
+                    "path": "template/kool-vmoptions"
+                }
+            ]
+        },
+        {
+            "name": "12",
+            "data": {
+                "from": "openjdk:12-oraclelinux7",
+                "version": 12,
+                "prod": false
+            },
+            "files": [
+                {
+                    "name": "Dockerfile",
+                    "path": "template/Dockerfile-oraclelinux7"
+                },
+                {
+                    "name": "entrypoint",
+                    "path": "template/entrypoint"
+                },
+                {
+                    "name": "kool.vmoptions",
+                    "path": "template/kool-vmoptions"
+                }
+            ]
+        },
+        {
+            "name": "12-prod",
+            "data": {
+                "from": "openjdk:12-oraclelinux7",
+                "version": 12,
+                "prod": true
+            },
+            "files": [
+                {
+                    "name": "Dockerfile",
+                    "path": "template/Dockerfile-oraclelinux7"
+                },
+                {
+                    "name": "entrypoint",
+                    "path": "template/entrypoint"
+                },
+                {
+                    "name": "kool.vmoptions",
+                    "path": "template/kool-vmoptions"
+                }
+            ]
+        },
+        {
+            "name": "13",
+            "data": {
+                "from": "openjdk:13-oraclelinux7",
+                "version": 13,
+                "prod": false
+            },
+            "files": [
+                {
+                    "name": "Dockerfile",
+                    "path": "template/Dockerfile-oraclelinux7"
+                },
+                {
+                    "name": "entrypoint",
+                    "path": "template/entrypoint"
+                },
+                {
+                    "name": "kool.vmoptions",
+                    "path": "template/kool-vmoptions"
+                }
+            ]
+        },
+        {
+            "name": "13-prod",
+            "data": {
+                "from": "openjdk:13-oraclelinux7",
+                "version": 13,
+                "prod": true
+            },
+            "files": [
+                {
+                    "name": "Dockerfile",
+                    "path": "template/Dockerfile-oraclelinux7"
+                },
+                {
+                    "name": "entrypoint",
+                    "path": "template/entrypoint"
+                },
+                {
+                    "name": "kool.vmoptions",
+                    "path": "template/kool-vmoptions"
+                }
+            ]
+        },
+        {
+            "name": "14",
+            "data": {
+                "from": "openjdk:14-oraclelinux7",
+                "version": 14,
+                "prod": false
+            },
+            "files": [
+                {
+                    "name": "Dockerfile",
+                    "path": "template/Dockerfile-oraclelinux7"
+                },
+                {
+                    "name": "entrypoint",
+                    "path": "template/entrypoint"
+                },
+                {
+                    "name": "kool.vmoptions",
+                    "path": "template/kool-vmoptions"
+                }
+            ]
+        },
+        {
+            "name": "14-prod",
+            "data": {
+                "from": "openjdk:14-oraclelinux7",
+                "version": 14,
+                "prod": true
+            },
+            "files": [
+                {
+                    "name": "Dockerfile",
+                    "path": "template/Dockerfile-oraclelinux7"
+                },
+                {
+                    "name": "entrypoint",
+                    "path": "template/entrypoint"
+                },
+                {
+                    "name": "kool.vmoptions",
+                    "path": "template/kool-vmoptions"
+                }
+            ]
+        },
+        {
+            "name": "15",
+            "data": {
+                "from": "openjdk:15-oraclelinux7",
+                "version": 15,
+                "prod": false
+            },
+            "files": [
+                {
+                    "name": "Dockerfile",
+                    "path": "template/Dockerfile-oraclelinux7"
+                },
+                {
+                    "name": "entrypoint",
+                    "path": "template/entrypoint"
+                },
+                {
+                    "name": "kool.vmoptions",
+                    "path": "template/kool-vmoptions"
+                }
+            ]
+        },
+        {
+            "name": "15-prod",
+            "data": {
+                "from": "openjdk:15-oraclelinux7",
+                "version": 15,
+                "prod": true
+            },
+            "files": [
+                {
+                    "name": "Dockerfile",
+                    "path": "template/Dockerfile-oraclelinux7"
+                },
+                {
+                    "name": "entrypoint",
+                    "path": "template/entrypoint"
+                },
+                {
+                    "name": "kool.vmoptions",
+                    "path": "template/kool-vmoptions"
+                }
+            ]
+        },
+        {
+            "name": "16",
+            "data": {
+                "from": "openjdk:16-oraclelinux7",
+                "version": 16,
+                "prod": false
+            },
+            "files": [
+                {
+                    "name": "Dockerfile",
+                    "path": "template/Dockerfile-oraclelinux7"
+                },
+                {
+                    "name": "entrypoint",
+                    "path": "template/entrypoint"
+                },
+                {
+                    "name": "kool.vmoptions",
+                    "path": "template/kool-vmoptions"
+                }
+            ]
+        },
+        {
+            "name": "16-prod",
+            "data": {
+                "from": "openjdk:16-oraclelinux7",
+                "version": 16,
+                "prod": true
+            },
+            "files": [
+                {
+                    "name": "Dockerfile",
+                    "path": "template/Dockerfile-oraclelinux7"
                 },
                 {
                     "name": "entrypoint",

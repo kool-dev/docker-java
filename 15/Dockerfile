@@ -1,4 +1,4 @@
-FROM {{ $from }}
+FROM openjdk:15-oraclelinux7
 
 ENV ASUSER='' \
     UID='' \
@@ -15,9 +15,6 @@ ENV ASUSER='' \
     TZ='' \
     JAVA_OPTIONS='' \
     ENTRYPOINT='' \
-@if ($prod)
-    JAR_FILE='/app/application.jar'
-@else
     RMI_SERVER_HOSTNAME='' \
     JVM_JMXREMOTE_PORT='' \
     JVM_JMXREMOTE_AUTHENTICATE='' \
@@ -26,38 +23,37 @@ ENV ASUSER='' \
     DEBUG_SUSPEND=n \
     CLASSPATH='' \
     MAIN_CLASS=''
-@endif
+
+ENV GRADLE_HOME /usr/local/gradle
+ENV PATH ${GRADLE_HOME}/bin:${PATH}
 
 WORKDIR /app
 
-RUN adduser -D -u 1337 kool \
-    && addgroup kool root \
-    && echo $TZ > /etc/timezone \
+RUN echo $TZ > /etc/timezone \
     # build-deps
-    && apk add --no-cache --virtual .build-deps curl libarchive-tools \
+    && yum install -y unzip \
     # dockerize
     && curl -L https://github.com/jwilder/dockerize/releases/download/v0.6.1/dockerize-alpine-linux-amd64-v0.6.1.tar.gz | tar xz \
     && mv dockerize /usr/local/bin/dockerize \
     # deps
-    && apk add --no-cache su-exec bash shadow tzdata \
-@unless ($prod)
-       maven gradle \
+    && curl -L http://repos.fedorapeople.org/repos/dchen/apache-maven/epel-apache-maven.repo -o /etc/yum.repos.d/epel-apache-maven.repo \
+    && yum install -y maven \
+    && curl -L https://downloads.gradle-dn.com/distributions/gradle-6.7-bin.zip -o gradle-6.7-bin.zip \
+    && unzip gradle-6.7-bin.zip \
+    && mv gradle-6.7 /usr/local/gradle \
     # hotswap
-    && mkdir -p /usr/lib/jvm/default-jvm/jre/lib/amd64/dcevm \
-    && curl -L https://github.com/dcevm/dcevm/releases/download/light-jdk8u181/DCEVM-8u181-installer.jar | bsdtar -xf- -C /tmp/ \
-    && cp /tmp/linux_amd64_compiler2/product/libjvm.so /usr/lib/jvm/default-jvm/jre/lib/amd64/dcevm/libjvm.so \
-    && mkdir -p /kool \
+    && mkdir -p /usr/lib/jvm/default/lib/dcevm \
+        && curl -L https://github.com/dcevm/dcevm/releases/download/light-jdk8u181/DCEVM-8u181-installer.jar -o /tmp/DCEVM-8u181-installer.jar \
+    && unzip /tmp/DCEVM-8u181-installer.jar -d /tmp/ \
+    && cp /tmp/linux_amd64_compiler2/product/libjvm.so /usr/lib/jvm/default/lib/dcevm/libjvm.so \
+        && mkdir -p /kool \
     && curl -L -o /kool/hotswap-agent.jar https://github.com/HotswapProjects/HotswapAgent/releases/download/RELEASE-1.4.1/hotswap-agent-1.4.1.jar \
-@endunless
-    && apk del .build-deps \
-    && rm -rf /var/cache/apk/* /tmp/* /home/kool/.composer/cache
+    && yum remove -y unzip \
+    && rm -rf /var/cache/yum/* /tmp/*
 
 COPY kool.vmoptions /kool/kool.tmpl
 COPY entrypoint /kool/entrypoint
 RUN chmod +x /kool/entrypoint
 
-@if ($prod)
-EXPOSE $DEBUG_PORT
-@endif
 
 ENTRYPOINT [ "dockerize", "-template", "/kool/kool.tmpl:/kool/kool.vmoptions", "/kool/entrypoint" ]

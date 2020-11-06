@@ -2,6 +2,7 @@
 set -e
 
 # Run as current user
+CURRENT_USER=${ASUSER:-${UID:-0}}
 VM_OPTIONS=$(< /kool/kool.vmoptions grep -Ev "^(#.*|.*=$)")
 @if ($prod)
 RUN="java ${VM_OPTIONS} ${JAVA_OPTIONS} -jar ${JAR_FILE}"
@@ -39,13 +40,25 @@ fi
 RUN="java ${VM_OPTIONS} ${JAVA_OPTIONS} -cp ${CLASSPATH} ${MAIN_CLASS}"
 @endif
 
+if [ -n "${CURRENT_USER}" ] && [ "${CURRENT_USER}" != "0" ]; then
+    usermod -u "${CURRENT_USER}" kool
+fi
+
 # Run entrypoint if provided
 if [ -n "${ENTRYPOINT}" ] && [ -f "${ENTRYPOINT}" ]; then
     bash "${ENTRYPOINT}"
 fi
 
 if [ "$1" = "bash" ] || [ "$1" = "java" ] || [ "$1" = "jshell" ] || [ "$1" = "mvn" ]  || [ "$1" = "gradle" ]; then
-  exec "${@}"
+  if [ -n "${CURRENT_USER}" ] && [ "${CURRENT_USER}" != "0" ]; then
+    exec su-exec kool "${@}"
+  else
+    exec "${@}"
+  fi
 else
-  exec "${RUN}" "${@}"
+  if [ -n "${CURRENT_USER}" ] && [ "${CURRENT_USER}" != "0" ]; then
+    exec su-exec kool "${RUN}" "${@}"
+  else
+    exec "${RUN}" "${@}"
+  fi
 fi

@@ -3,9 +3,6 @@ set -e
 
 # Run as current user
 VM_OPTIONS=$(< /kool/kool.vmoptions grep -Ev "^(#.*|.*=$)")
-@if ($prod)
-RUN="java ${VM_OPTIONS} ${JAVA_OPTIONS} -jar ${JAR_FILE}"
-@else ($prod)
 if [ -e "${CLASSPATH}" ]; then
   if [ -f pom.xml ]; then
     if [ -e "$(command -v mvn)" ]; then
@@ -37,7 +34,6 @@ EOF
 fi
 
 RUN="java ${VM_OPTIONS} ${JAVA_OPTIONS} -cp ${CLASSPATH} ${MAIN_CLASS}"
-@endif
 
 # Run entrypoint if provided
 if [ -n "${ENTRYPOINT}" ] && [ -f "${ENTRYPOINT}" ]; then

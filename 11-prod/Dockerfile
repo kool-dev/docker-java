@@ -1,4 +1,4 @@
-FROM openjdk:8-jre-alpine
+FROM openjdk:11-jre-slim
 
 ENV ASUSER='' \
     UID='' \
@@ -19,17 +19,15 @@ ENV ASUSER='' \
 
 WORKDIR /app
 
-RUN adduser -D -u 1337 kool \
-    && echo $TZ > /etc/timezone \
+RUN echo $TZ > /etc/timezone \
     # build-deps
-    && apk add --no-cache --virtual .build-deps curl libarchive-tools \
+    && apt-get update \
+    && apt-get install -o APT::Immediate-Configure=false -y --no-install-recommends curl libarchive-tools \
     # dockerize
     && curl -L https://github.com/jwilder/dockerize/releases/download/v0.6.1/dockerize-alpine-linux-amd64-v0.6.1.tar.gz | tar xz \
     && mv dockerize /usr/local/bin/dockerize \
-    # deps
-    && apk add --no-cache su-exec bash shadow tzdata \
-    && apk del .build-deps \
-    && rm -rf /var/cache/apk/* /tmp/*
+    && apt-get purge -y --auto-remove curl libarchive-tools \
+    && rm -rf /var/lib/apt/lists/* /tmp/*
 
 COPY kool.vmoptions /kool/kool.tmpl
 COPY entrypoint /kool/entrypoint
