@@ -1,7 +1,10 @@
-FROM openjdk:15-oraclelinux7
+FROM amazoncorretto:15-alpine-jdk
 
 ENV ASUSER='' \
     UID='' \
+    KOOL=true \
+    GRADLE_USER_HOME=".gradle" \
+    MAVEN_OPTS="-Dmaven.repo.local=.m2/repository" \
     VM_OPTIONS_XMS=256m \
     VM_OPTIONS_XMX=256m \
     VM_OPTIONS_MAX_METASPACE_SIZE=512m \
@@ -17,19 +20,19 @@ ENV ASUSER='' \
     ENTRYPOINT='' \
     JAR_FILE='/app/application.jar'
 
-ENV GRADLE_HOME /usr/local/gradle
-ENV PATH ${GRADLE_HOME}/bin:${PATH}
-
 WORKDIR /app
 
-RUN echo $TZ > /etc/timezone \
+RUN adduser -D -u 1337 kool \
+    && echo $TZ > /etc/timezone \
     # build-deps
-    && yum install -y unzip \
+    && apk add --no-cache --virtual .build-deps curl libarchive-tools \
     # dockerize
     && curl -L https://github.com/jwilder/dockerize/releases/download/v0.6.1/dockerize-alpine-linux-amd64-v0.6.1.tar.gz | tar xz \
     && mv dockerize /usr/local/bin/dockerize \
-    && yum remove -y unzip \
-    && rm -rf /var/cache/yum/* /tmp/*
+    # deps
+    && apk add --no-cache su-exec bash shadow tzdata \
+    && apk del .build-deps \
+    && rm -rf /var/cache/apk/* /tmp/*
 
 COPY kool.vmoptions /kool/kool.tmpl
 COPY entrypoint /kool/entrypoint
@@ -37,4 +40,4 @@ RUN chmod +x /kool/entrypoint
 
 EXPOSE $DEBUG_PORT
 
-ENTRYPOINT [ "dockerize", "-template", "/kool/kool.tmpl:/kool/kool.vmoptions", "/kool/entrypoint" ]
+ENTRYPOINT [ "/kool/entrypoint" ]

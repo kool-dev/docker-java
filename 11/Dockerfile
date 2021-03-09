@@ -1,7 +1,10 @@
-FROM openjdk:11-jdk-slim
+FROM amazoncorretto:11-alpine-jdk
 
 ENV ASUSER='' \
     UID='' \
+    KOOL=true \
+    GRADLE_USER_HOME=".gradle" \
+    MAVEN_OPTS="-Dmaven.repo.local=.m2/repository" \
     VM_OPTIONS_XMS=256m \
     VM_OPTIONS_XMX=256m \
     VM_OPTIONS_MAX_METASPACE_SIZE=512m \
@@ -26,28 +29,28 @@ ENV ASUSER='' \
 
 WORKDIR /app
 
-RUN echo $TZ > /etc/timezone \
+RUN adduser -D -u 1337 kool \
+    && echo $TZ > /etc/timezone \
     # build-deps
-    && apt-get update \
-    && apt-get install -o APT::Immediate-Configure=false -y --no-install-recommends curl libarchive-tools \
+    && apk add --no-cache --virtual .build-deps curl libarchive-tools \
     # dockerize
     && curl -L https://github.com/jwilder/dockerize/releases/download/v0.6.1/dockerize-alpine-linux-amd64-v0.6.1.tar.gz | tar xz \
     && mv dockerize /usr/local/bin/dockerize \
     # deps
-        && mkdir -p /usr/share/man/man1/ \
-        && apt-get install -y --no-install-recommends maven gradle \
+    && apk add --no-cache su-exec bash shadow tzdata \
+       maven gradle \
     # hotswap
-    && mkdir -p /usr/lib/jvm/java-11-openjdk-amd64/jre/lib/amd64/dcevm \
+    && mkdir -p /usr/lib/jvm/default-jvm/jre/lib/amd64/dcevm \
         && curl -L https://github.com/dcevm/dcevm/releases/download/light-jdk8u181/DCEVM-8u181-installer.jar | bsdtar -xf- -C /tmp/ \
-    && cp /tmp/linux_amd64_compiler2/product/libjvm.so /usr/lib/jvm/java-11-openjdk-amd64/jre/lib/amd64/dcevm/libjvm.so \
+    && cp /tmp/linux_amd64_compiler2/product/libjvm.so /usr/lib/jvm/default-jvm/jre/lib/amd64/dcevm/libjvm.so \
         && mkdir -p /kool \
     && curl -L -o /kool/hotswap-agent.jar https://github.com/HotswapProjects/HotswapAgent/releases/download/RELEASE-1.4.1/hotswap-agent-1.4.1.jar \
-    && apt-get purge -y --auto-remove curl libarchive-tools \
-    && rm -rf /var/lib/apt/lists/* /tmp/*
+    && apk del .build-deps \
+    && rm -rf /var/cache/apk/* /tmp/*
 
 COPY kool.vmoptions /kool/kool.tmpl
 COPY entrypoint /kool/entrypoint
 RUN chmod +x /kool/entrypoint
 
 
-ENTRYPOINT [ "dockerize", "-template", "/kool/kool.tmpl:/kool/kool.vmoptions", "/kool/entrypoint" ]
+ENTRYPOINT [ "/kool/entrypoint" ]

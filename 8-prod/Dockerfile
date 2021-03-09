@@ -1,7 +1,10 @@
-FROM openjdk:8-jre-alpine
+FROM amazoncorretto:8-alpine
 
 ENV ASUSER='' \
     UID='' \
+    KOOL=true \
+    GRADLE_USER_HOME=".gradle" \
+    MAVEN_OPTS="-Dmaven.repo.local=.m2/repository" \
     VM_OPTIONS_XMS=256m \
     VM_OPTIONS_XMX=256m \
     VM_OPTIONS_MAX_METASPACE_SIZE=512m \
@@ -37,4 +40,4 @@ RUN chmod +x /kool/entrypoint
 
 EXPOSE $DEBUG_PORT
 
-ENTRYPOINT [ "dockerize", "-template", "/kool/kool.tmpl:/kool/kool.vmoptions", "/kool/entrypoint" ]
+ENTRYPOINT [ "/kool/entrypoint" ]
