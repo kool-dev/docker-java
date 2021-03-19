@@ -38,13 +38,13 @@ RUN adduser -D -u 1337 kool \
     && mv dockerize /usr/local/bin/dockerize \
     # deps
     && apk add --no-cache su-exec bash shadow tzdata \
-       maven gradle \
-    # hotswap
-    #&& mkdir -p /usr/lib/jvm/default-jvm/jre/lib/amd64/dcevm \
-    #&& curl -L https://github.com/dcevm/dcevm/releases/download/light-jdk8u181/DCEVM-8u181-installer.jar | bsdtar -xf- -C /tmp/ \
-    #&& cp /tmp/linux_amd64_compiler2/product/libjvm.so /usr/lib/jvm/default-jvm/jre/lib/amd64/dcevm/libjvm.so \
-    #&& mkdir -p /kool \
-    #&& curl -L -o /kool/hotswap-agent.jar https://github.com/HotswapProjects/HotswapAgent/releases/download/RELEASE-1.4.1/hotswap-agent-1.4.1.jar \
+       libc6-compat maven gradle \
+    && ln -s /lib/libc.musl-x86_64.so.1 /lib/ld-linux-x86-64.so.2 \
+    && mkdir -p /usr/lib/jvm/default-jvm/jre/lib/amd64/dcevm \
+    && curl -L https://github.com/dcevm/dcevm/releases/download/light-jdk8u181%2B2/DCEVM-8u181-installer-build2.jar | bsdtar -xf- -C /tmp/ \
+    && cp /tmp/linux_amd64_compiler2/product/libjvm.so /usr/lib/jvm/default-jvm/jre/lib/amd64/dcevm/libjvm.so \
+    && mkdir -p /kool \
+    && curl -L -o /kool/hotswap-agent.jar https://github.com/HotswapProjects/HotswapAgent/releases/download/RELEASE-1.4.1/hotswap-agent-1.4.1.jar \
     && apk del .build-deps \
     && rm -rf /var/cache/apk/* /tmp/*
 

@@ -10,10 +10,7 @@
 -XX:+UseConcMarkSweepGC -XX:+CMSParallelRemarkEnabled
 -XX:+UseCMSInitiatingOccupancyOnly -XX:CMSInitiatingOccupancyFraction=@{{ .Env.CMS_TRIGGER_PERCENT }}
 -XX:+ScavengeBeforeFullGC -XX:+CMSScavengeBeforeRemark
--XX:+PrintGCDateStamps -verbose:gc -XX:+PrintGCDetails -Xloggc:/var/log/jvm/gc_%t.log
--XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=10 -XX:GCLogFileSize=100M
--XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/var/jvm/dump/dump_%t.hprof
--XX:ErrorFile=/var/log/jvm/error_%t.log
+-XX:+PrintGCDateStamps -verbose:gc -XX:+PrintGCDetails
 -Dfile.encoding=@{{ .Env.JVM_FILE_ENCODING }}
 -Dsun.net.inetaddr.ttl=@{{ .Env.JVM_TTL }}
 -Duser.language=@{{ .Env.JVM_USER_LANGUAGE }}
