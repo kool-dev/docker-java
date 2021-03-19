@@ -4,6 +4,7 @@ dockerize -template /kool/kool.tmpl:/kool/kool.vmoptions
 
 # Run as current user
 CURRENT_USER=${ASUSER:-${UID:-0}}
+VM_OPTIONS=$(< /kool/kool.vmoptions grep -Ev "^(#.*|.*=$)" | tr -s "\n" " ")
 if [ -n "${CURRENT_USER}" ] && [ "${CURRENT_USER}" != "0" ]; then
     usermod -u "${CURRENT_USER}" kool
 fi
@@ -13,10 +14,7 @@ if [ "$1" = "sh" ] || [ "$1" = "bash" ] || [ "$1" = "java" ] || [ "$1" = "jshell
   exit 0
 fi
 
-VM_OPTIONS=$(< /kool/kool.vmoptions grep -Ev "^(#.*|.*=$)")
-@if ($prod)
-RUN="java ${VM_OPTIONS} ${JAVA_OPTIONS} -jar ${JAR_FILE}"
-@else ($prod)
+@unless ($prod)
 if [ -z "${CLASSPATH}" ]; then
   export KOOL=true
 
@@ -26,7 +24,7 @@ if [ -z "${CLASSPATH}" ]; then
       exit 1;
     fi
 
-    CLASSPATH=$(mvn -q exec:exec -Dexec.executable=echo -Dexec.args="%classpath" | tail -n 1)
+    CLASSPATH=$(mvn -q exec:exec -Dexec.executable=echo -Dexec.args="%classpath" | tail -n 1 | tr -s "\n" " ")
   fi
 
   if [ -f build.gradle ]; then
@@ -48,11 +46,10 @@ EOF
       printf "\napply from: 'kool.gradle'" >> build.gradle
     fi
 
-    CLASSPATH=$(gradle -q classPath | tail -n 1)
+    CLASSPATH=$(gradle -q classPath | tail -n 1 | tr -s "\n" " ")
   fi
 fi
 
-RUN="java ${VM_OPTIONS} ${JAVA_OPTIONS} -cp ${CLASSPATH} ${MAIN_CLASS}"
 @endif
 
 # Run entrypoint if provided
@@ -60,4 +57,8 @@ if [ -n "${ENTRYPOINT}" ] && [ -f "${ENTRYPOINT}" ]; then
     bash "${ENTRYPOINT}"
 fi
 
-exec su-exec kool "${RUN}" "${@}"
+@if ($prod)
+exec su-exec kool java ${VM_OPTIONS} ${JAVA_OPTIONS} -jar ${JAR_FILE} "${@}"
+@else
+exec su-exec kool java ${VM_OPTIONS} ${JAVA_OPTIONS} -classpath ${CLASSPATH} ${MAIN_CLASS} "${@}"
+@endif

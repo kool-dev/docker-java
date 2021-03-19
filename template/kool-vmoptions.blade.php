@@ -21,12 +21,12 @@
 @unless ($prod)
 -Djava.rmi.server.hostname=@{{ .Env.RMI_SERVER_HOSTNAME }}
 -Dcom.sun.management.jmxremote
--Dcom.sun.management.jmxremote.port=@{{ .Env.JVM_JMXREMOTE_PORT }}
--Dcom.sun.management.jmxremote.authenticate=@{{ .Env.JVM_JMXREMOTE_AUTHENTICATE }}
--Dcom.sun.management.jmxremote.ssl=@{{ .Env.JVM_JMXREMOTE_SSL }}
--agentlib:jdwp=transport=dt_socket,address=127.0.0.1:@{{ .Env.DEBUG_PORT }},suspend=@{{ .Env.DEBUG_SUSPEND }},server=n
+#-Dcom.sun.management.jmxremote.port=@{{ .Env.JVM_JMXREMOTE_PORT }}
+#-Dcom.sun.management.jmxremote.authenticate=@{{ .Env.JVM_JMXREMOTE_AUTHENTICATE }}
+#-Dcom.sun.management.jmxremote.ssl=@{{ .Env.JVM_JMXREMOTE_SSL }}
+#-agentlib:jdwp=transport=dt_socket,address=127.0.0.1:@{{ .Env.DEBUG_PORT }},suspend=@{{ .Env.DEBUG_SUSPEND }},server=n
 -XX:TieredStopAtLevel=1
 -noverify
--XXaltjvm=dcevm
--javaagent:/kool/hotswap-agent.jar
+#-XXaltjvm=dcevm
+#-javaagent:/kool/hotswap-agent.jar
 @endunless
