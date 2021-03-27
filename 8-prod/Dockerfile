@@ -2,9 +2,6 @@ FROM amazoncorretto:8-alpine
 
 ENV ASUSER='' \
     UID='' \
-    KOOL=true \
-    GRADLE_USER_HOME=".gradle" \
-    MAVEN_OPTS="-Dmaven.repo.local=.m2/repository" \
     VM_OPTIONS_XMS=256m \
     VM_OPTIONS_XMX=256m \
     VM_OPTIONS_MAX_METASPACE_SIZE=512m \
@@ -13,8 +10,8 @@ ENV ASUSER='' \
     CMS_TRIGGER_PERCENT=70 \
     JVM_FILE_ENCODING=UTF-8 \
     JVM_TTL=60 \
-    JVM_USER_LANGUAGE='' \
-    JVM_USER_COUNTRY='' \
+    JVM_USER_LANGUAGE='en' \
+    JVM_USER_COUNTRY='US' \
     TZ='' \
     JAVA_OPTIONS='' \
     ENTRYPOINT='' \

@@ -15,9 +15,10 @@ if [ "$1" = "sh" ] || [ "$1" = "bash" ] || [ "$1" = "java" ] || [ "$1" = "jshell
 fi
 
 @unless ($prod)
+export KOOL=true
+export GRADLE_USER_HOME=".gradle"
+export MAVEN_OPTS="-Dmaven.repo.local=.m2/repository"
 if [ -z "${CLASSPATH}" ]; then
-  export KOOL=true
-
   if [ -f pom.xml ]; then
     if [ -z "$(command -v mvn)" ]; then
       echo "This image not contains Maven"

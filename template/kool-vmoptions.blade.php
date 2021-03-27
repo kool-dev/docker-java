@@ -16,8 +16,8 @@
 -Duser.language=@{{ .Env.JVM_USER_LANGUAGE }}
 -Duser.country=@{{ .Env.JVM_USER_COUNTRY }}
 @unless ($prod)
--Djava.rmi.server.hostname=@{{ .Env.RMI_SERVER_HOSTNAME }}
--Dcom.sun.management.jmxremote
+#-Djava.rmi.server.hostname=@{{ .Env.RMI_SERVER_HOSTNAME }}
+#-Dcom.sun.management.jmxremote
 #-Dcom.sun.management.jmxremote.port=@{{ .Env.JVM_JMXREMOTE_PORT }}
 #-Dcom.sun.management.jmxremote.authenticate=@{{ .Env.JVM_JMXREMOTE_AUTHENTICATE }}
 #-Dcom.sun.management.jmxremote.ssl=@{{ .Env.JVM_JMXREMOTE_SSL }}

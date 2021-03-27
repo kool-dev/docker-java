@@ -1,137 +1,181 @@
 {
-    "output": ".",
-    "builds": [
+  "output": ".",
+  "builds": [
+    {
+      "name": "16-prod",
+      "data": {
+        "from": "amazoncorretto:16-alpine-jdk",
+        "version": 16,
+        "prod": true
+      },
+      "files": [
         {
-            "name": "8",
-            "data": {
-                "from": "amazoncorretto:8-alpine-jdk",
-                "version": 8,
-                "prod": false
-            },
-            "files": [
-                {
-                    "name": "Dockerfile",
-                    "path": "template/Dockerfile-alpine"
-                },
-                {
-                    "name": "entrypoint",
-                    "path": "template/entrypoint-kool"
-                },
-                {
-                    "name": "kool.vmoptions",
-                    "path": "template/kool-vmoptions"
-                }
-            ]
+          "name": "Dockerfile",
+          "path": "template/Dockerfile-alpine"
         },
         {
-            "name": "8-prod",
-            "data": {
-                "from": "amazoncorretto:8-alpine",
-                "version": 8,
-                "prod": true
-            },
-            "files": [
-                {
-                    "name": "Dockerfile",
-                    "path": "template/Dockerfile-alpine"
-                },
-                {
-                    "name": "entrypoint",
-                    "path": "template/entrypoint-kool"
-                },
-                {
-                    "name": "kool.vmoptions",
-                    "path": "template/kool-vmoptions"
-                }
-            ]
+          "name": "entrypoint",
+          "path": "template/entrypoint-kool"
         },
         {
-            "name": "11",
-            "data": {
-                "from": "amazoncorretto:11-alpine-jdk",
-                "version": 11,
-                "prod": false
-            },
-            "files": [
-                {
-                    "name": "Dockerfile",
-                    "path": "template/Dockerfile-alpine"
-                },
-                {
-                    "name": "entrypoint",
-                    "path": "template/entrypoint-kool"
-                },
-                {
-                    "name": "kool.vmoptions",
-                    "path": "template/kool-vmoptions"
-                }
-            ]
-        },
-        {
-            "name": "11-prod",
-            "data": {
-                "from": "amazoncorretto:11-alpine",
-                "version": 11,
-                "prod": true
-            },
-            "files": [
-                {
-                    "name": "Dockerfile",
-                    "path": "template/Dockerfile-alpine"
-                },
-                {
-                    "name": "entrypoint",
-                    "path": "template/entrypoint-kool"
-                },
-                {
-                    "name": "kool.vmoptions",
-                    "path": "template/kool-vmoptions"
-                }
-            ]
-        },
-        {
-            "name": "15",
-            "data": {
-                "from": "amazoncorretto:15-alpine-jdk",
-                "version": 15,
-                "prod": false
-            },
-            "files": [
-                {
-                    "name": "Dockerfile",
-                    "path": "template/Dockerfile-alpine"
-                },
-                {
-                    "name": "entrypoint",
-                    "path": "template/entrypoint-kool"
-                },
-                {
-                    "name": "kool.vmoptions",
-                    "path": "template/kool-vmoptions"
-                }
-            ]
-        },
-        {
-            "name": "15-prod",
-            "data": {
-                "from": "amazoncorretto:15-alpine-jdk",
-                "version": 15,
-                "prod": true
-            },
-            "files": [
-                {
-                    "name": "Dockerfile",
-                    "path": "template/Dockerfile-alpine"
-                },
-                {
-                    "name": "entrypoint",
-                    "path": "template/entrypoint-kool"
-                },
-                {
-                    "name": "kool.vmoptions",
-                    "path": "template/kool-vmoptions"
-                }
-            ]
+          "name": "kool.vmoptions",
+          "path": "template/kool-vmoptions"
         }
-    ]
+      ]
+    },
+    {
+      "name": "16",
+      "data": {
+        "from": "amazoncorretto:16-alpine-jdk",
+        "version": 16,
+        "prod": false
+      },
+      "files": [
+        {
+          "name": "Dockerfile",
+          "path": "template/Dockerfile-alpine"
+        },
+        {
+          "name": "entrypoint",
+          "path": "template/entrypoint-kool"
+        },
+        {
+          "name": "kool.vmoptions",
+          "path": "template/kool-vmoptions"
+        }
+      ]
+    },
+    {
+      "name": "15-prod",
+      "data": {
+        "from": "amazoncorretto:15-alpine-jdk",
+        "version": 15,
+        "prod": true
+      },
+      "files": [
+        {
+          "name": "Dockerfile",
+          "path": "template/Dockerfile-alpine"
+        },
+        {
+          "name": "entrypoint",
+          "path": "template/entrypoint-kool"
+        },
+        {
+          "name": "kool.vmoptions",
+          "path": "template/kool-vmoptions"
+        }
+      ]
+    },
+    {
+      "name": "15",
+      "data": {
+        "from": "amazoncorretto:15-alpine-jdk",
+        "version": 15,
+        "prod": false
+      },
+      "files": [
+        {
+          "name": "Dockerfile",
+          "path": "template/Dockerfile-alpine"
+        },
+        {
+          "name": "entrypoint",
+          "path": "template/entrypoint-kool"
+        },
+        {
+          "name": "kool.vmoptions",
+          "path": "template/kool-vmoptions"
+        }
+      ]
+    },
+    {
+      "name": "11-prod",
+      "data": {
+        "from": "amazoncorretto:11-alpine",
+        "version": 11,
+        "prod": true
+      },
+      "files": [
+        {
+          "name": "Dockerfile",
+          "path": "template/Dockerfile-alpine"
+        },
+        {
+          "name": "entrypoint",
+          "path": "template/entrypoint-kool"
+        },
+        {
+          "name": "kool.vmoptions",
+          "path": "template/kool-vmoptions"
+        }
+      ]
+    },
+    {
+      "name": "11",
+      "data": {
+        "from": "amazoncorretto:11-alpine-jdk",
+        "version": 11,
+        "prod": false
+      },
+      "files": [
+        {
+          "name": "Dockerfile",
+          "path": "template/Dockerfile-alpine"
+        },
+        {
+          "name": "entrypoint",
+          "path": "template/entrypoint-kool"
+        },
+        {
+          "name": "kool.vmoptions",
+          "path": "template/kool-vmoptions"
+        }
+      ]
+    },
+    {
+      "name": "8-prod",
+      "data": {
+        "from": "amazoncorretto:8-alpine",
+        "version": 8,
+        "prod": true
+      },
+      "files": [
+        {
+          "name": "Dockerfile",
+          "path": "template/Dockerfile-alpine"
+        },
+        {
+          "name": "entrypoint",
+          "path": "template/entrypoint-kool"
+        },
+        {
+          "name": "kool.vmoptions",
+          "path": "template/kool-vmoptions"
+        }
+      ]
+    },
+    {
+      "name": "8",
+      "data": {
+        "from": "amazoncorretto:8-alpine-jdk",
+        "version": 8,
+        "prod": false
+      },
+      "files": [
+        {
+          "name": "Dockerfile",
+          "path": "template/Dockerfile-alpine"
+        },
+        {
+          "name": "entrypoint",
+          "path": "template/entrypoint-kool"
+        },
+        {
+          "name": "kool.vmoptions",
+          "path": "template/kool-vmoptions"
+        }
+      ]
+    }
+  ]
 }

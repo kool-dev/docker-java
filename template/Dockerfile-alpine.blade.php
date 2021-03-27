@@ -2,23 +2,20 @@ FROM {{ $from }}
 
 ENV ASUSER='' \
     UID='' \
-    KOOL=true \
-    GRADLE_USER_HOME=".gradle" \
-    MAVEN_OPTS="-Dmaven.repo.local=.m2/repository" \
     VM_OPTIONS_XMS=256m \
     VM_OPTIONS_XMX=256m \
 @if ($version >= 8)
     VM_OPTIONS_MAX_METASPACE_SIZE=512m \
 @else
-    VM_OPTIONS_PERM_SIZE=512m \
+    VM_OPTIONS_PERM_SIZE=256m \
 @endif
     VM_OPTIONS_XMN=64m \
     VM_OPTIONS_SURVIVOR_RATIO=128 \
     CMS_TRIGGER_PERCENT=70 \
     JVM_FILE_ENCODING=UTF-8 \
     JVM_TTL=60 \
-    JVM_USER_LANGUAGE='' \
-    JVM_USER_COUNTRY='' \
+    JVM_USER_LANGUAGE='en' \
+    JVM_USER_COUNTRY='US' \
     TZ='' \
     JAVA_OPTIONS='' \
     ENTRYPOINT='' \
