@@ -1,0 +1,17 @@
+scripts:
+  template: kool docker fireworkweb/fwd:v1.0 fwd template
+  build:
+    # parse templates
+    - kool run template
+    # JAVA 16
+    - docker build --pull -t kooldev/java:16 16
+    - docker build --pull -t kooldev/java:16-prod 16-prod
+    # JAVA 15
+    - docker build --pull -t kooldev/java:15 15
+    - docker build --pull -t kooldev/java:15-prod 15-prod
+    # JAVA 11
+    - docker build --pull -t kooldev/java:11 11
+    - docker build --pull -t kooldev/java:11-prod 11-prod
+    # JAVA 8
+    - docker build --pull -t kooldev/java:8 8
+    - docker build --pull -t kooldev/java:8-prod 8-prod
