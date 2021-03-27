@@ -9,9 +9,9 @@ scripts:
     # JAVA 15
     - docker build --pull -t kooldev/java:15 15
     - docker build --pull -t kooldev/java:15-prod 15-prod
-    # PHP 11
+    # JAVA 11
     - docker build --pull -t kooldev/java:11 11
     - docker build --pull -t kooldev/java:11-prod 11-prod
-    # PHP 8
+    # JAVA 8
     - docker build --pull -t kooldev/java:8 8
     - docker build --pull -t kooldev/java:8-prod 8-prod
