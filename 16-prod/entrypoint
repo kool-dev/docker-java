@@ -1,0 +1,23 @@
+#!/bin/sh
+set -e
+dockerize -template /kool/kool.tmpl:/kool/kool.vmoptions
+
+# Run as current user
+CURRENT_USER=${ASUSER:-${UID:-0}}
+VM_OPTIONS=$(< /kool/kool.vmoptions grep -Ev "^(#.*|.*=$)" | tr -s "\n" " ")
+if [ -n "${CURRENT_USER}" ] && [ "${CURRENT_USER}" != "0" ]; then
+    usermod -u "${CURRENT_USER}" kool
+fi
+
+if [ "$1" = "sh" ] || [ "$1" = "bash" ] || [ "$1" = "java" ] || [ "$1" = "jshell" ] || [ "$1" = "mvn" ]  || [ "$1" = "gradle" ]; then
+  exec "${@}"
+  exit 0
+fi
+
+
+# Run entrypoint if provided
+if [ -n "${ENTRYPOINT}" ] && [ -f "${ENTRYPOINT}" ]; then
+    bash "${ENTRYPOINT}"
+fi
+
+exec su-exec kool java ${VM_OPTIONS} ${JAVA_OPTIONS} -jar ${JAR_FILE} "${@}"
