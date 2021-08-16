@@ -5,13 +5,21 @@ scripts:
     - kool run template
     # JAVA 16
     - docker build --pull -t kooldev/java:16 16
+    - docker build --pull -t kooldev/java:16-g6 16-g6
+    - docker build --pull -t kooldev/java:16-g5 16-g5
     - docker build --pull -t kooldev/java:16-prod 16-prod
     # JAVA 15
     - docker build --pull -t kooldev/java:15 15
+    - docker build --pull -t kooldev/java:15-g6 15-g6
+    - docker build --pull -t kooldev/java:15-g5 15-g5
     - docker build --pull -t kooldev/java:15-prod 15-prod
     # JAVA 11
     - docker build --pull -t kooldev/java:11 11
+    - docker build --pull -t kooldev/java:11-g6 11-g6
+    - docker build --pull -t kooldev/java:11-g5 11-g5
     - docker build --pull -t kooldev/java:11-prod 11-prod
     # JAVA 8
     - docker build --pull -t kooldev/java:8 8
+    - docker build --pull -t kooldev/java:8-g6 8-g6
+    - docker build --pull -t kooldev/java:8-g5 8-g5
     - docker build --pull -t kooldev/java:8-prod 8-prod

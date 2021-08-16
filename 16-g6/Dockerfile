@@ -49,7 +49,7 @@ RUN adduser -D -u 1337 kool \
     && rm -rf /var/cache/apk/* /tmp/*
 
 RUN apk add --no-cache curl \
-    && bash -c "source /usr/local/sdkman/bin/sdkman-init.sh && sdk install maven && sdk install gradle "
+    && bash -c "source /usr/local/sdkman/bin/sdkman-init.sh && sdk install maven && sdk install gradle 6.9"
 
 ENV PATH="$SDKMAN_DIR/candidates/maven/current/bin:$SDKMAN_DIR/candidates/gradle/current/bin:$PATH"
 
