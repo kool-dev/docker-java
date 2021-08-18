@@ -14,6 +14,8 @@ ENV ASUSER='' \
     TZ='' \
     JAVA_OPTIONS='' \
     ENTRYPOINT='' \
+    GRADLE_USER_HOME=/home/kool/.gradle \
+    MAVEN_OPTS="-Dmaven.repo.local=/home/kool/.m2/repository" \
     VM_OPTIONS_METASPACE_SIZE=64m \
     VM_OPTIONS_XMS=32m \
     SDKMAN_DIR=/usr/local/sdkman \

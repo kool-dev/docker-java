@@ -23,6 +23,8 @@ ENV ASUSER='' \
     VM_OPTIONS_XMS=256m \
     JAR_FILE='/app/application.jar'
 @else
+    GRADLE_USER_HOME=/home/kool/.gradle \
+    MAVEN_OPTS="-Dmaven.repo.local=/home/kool/.m2/repository" \
     VM_OPTIONS_METASPACE_SIZE=64m \
     VM_OPTIONS_XMS=32m \
     SDKMAN_DIR=/usr/local/sdkman \
