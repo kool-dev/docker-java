@@ -81,6 +81,11 @@ Variable | Default Value | Description
 
 ## Usage
 
+The developer version, you need mount your volume to maven and gradle.
+
+- $HOME/.kool/m2:/home/kool/.m2
+- $HOME/.kool/gradle:/home/kool/.gradle
+
 ### With `kool`:
 
 In your application directory:

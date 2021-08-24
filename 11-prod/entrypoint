@@ -9,11 +9,10 @@ if [ -n "${CURRENT_USER}" ] && [ "${CURRENT_USER}" != "0" ]; then
     usermod -u "${CURRENT_USER}" kool
 fi
 
-if [ "$1" = "sh" ] || [ "$1" = "bash" ] || [ "$1" = "java" ] || [ "$1" = "jshell" ] || [ "$1" = "mvn" ]  || [ "$1" = "gradle" ]; then
+if [ "$1" = "sh" ] || [ "$1" = "bash" ] || [ "$1" = "java" ] || [ "$1" = "jshell" ] || [ "$1" = "mvn" ]  || [ "$1" = "gradle" ]  || [ "$1" = "sdk" ]; then
   exec "${@}"
   exit 0
 fi
-
 
 # Run entrypoint if provided
 if [ -n "${ENTRYPOINT}" ] && [ -f "${ENTRYPOINT}" ]; then

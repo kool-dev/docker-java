@@ -9,14 +9,17 @@ if [ -n "${CURRENT_USER}" ] && [ "${CURRENT_USER}" != "0" ]; then
     usermod -u "${CURRENT_USER}" kool
 fi
 
-if [ "$1" = "sh" ] || [ "$1" = "bash" ] || [ "$1" = "java" ] || [ "$1" = "jshell" ] || [ "$1" = "mvn" ]  || [ "$1" = "gradle" ]; then
+if [ "$1" = "sh" ] || [ "$1" = "bash" ] || [ "$1" = "java" ] || [ "$1" = "jshell" ] || [ "$1" = "mvn" ]  || [ "$1" = "gradle" ]  || [ "$1" = "sdk" ]; then
   exec "${@}"
   exit 0
 fi
 
+# Run entrypoint if provided
+if [ -n "${ENTRYPOINT}" ] && [ -f "${ENTRYPOINT}" ]; then
+    bash "${ENTRYPOINT}"
+fi
+
 export KOOL=true
-export GRADLE_USER_HOME=".gradle"
-export MAVEN_OPTS="-Dmaven.repo.local=.m2/repository"
 if [ -z "${CLASSPATH}" ]; then
   if [ -f pom.xml ]; then
     if [ -z "$(command -v mvn)" ]; then
@@ -25,17 +28,19 @@ if [ -z "${CLASSPATH}" ]; then
     fi
 
     CLASSPATH=$(mvn -q exec:exec -Dexec.executable=echo -Dexec.args="%classpath" | tail -n 1 | tr -s "\n" " ")
+
+    mvn package
   fi
 
-  if [ -f build.gradle ]; then
+  if [ -f build.gradle ] || [ -f build.gradle.kts ]; then
     if [ -z "$(command -v gradle)" ]; then
       echo "This image not contains Gradle"
       exit 1;
     fi
 
-    if ! [ -f kool.gradle ]; then
+    if [ -f build.gradle ] && ! [ -f kool.gradle ]; then
       cat > kool.gradle <<EOF
-task classPath {
+tasks.register('classPath') {
     if (System.getenv('KOOL')) {
         doLast {
             println "\${sourceSets.main.runtimeClasspath.collect().join(':')}"
@@ -46,14 +51,24 @@ EOF
       printf "\napply from: 'kool.gradle'" >> build.gradle
     fi
 
+    if [ -f build.gradle.kts ] && ! [ -f kool.gradle.kts ]; then
+          cat > kool.gradle.kts <<EOF
+tasks.register("classPath") {
+    if (System.getenv("KOOL")!!.toBoolean()) {
+        doLast {
+            println(project.the<SourceSetContainer>()["main"].runtimeClasspath.joinToString(":"))
+        }
+    }
+}
+EOF
+      printf "\napply(from = \"kool.gradle.kts\")" >> build.gradle.kts
+    fi
+
     CLASSPATH=$(gradle -q classPath | tail -n 1 | tr -s "\n" " ")
+
+    gradle assemble
   fi
 fi
 
-
-# Run entrypoint if provided
-if [ -n "${ENTRYPOINT}" ] && [ -f "${ENTRYPOINT}" ]; then
-    bash "${ENTRYPOINT}"
-fi
-
+echo "Running: java ${VM_OPTIONS} ${JAVA_OPTIONS} -classpath ${CLASSPATH} ${MAIN_CLASS} ${@}"
 exec su-exec kool java ${VM_OPTIONS} ${JAVA_OPTIONS} -classpath ${CLASSPATH} ${MAIN_CLASS} "${@}"

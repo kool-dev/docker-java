@@ -2,9 +2,8 @@ FROM amazoncorretto:11-alpine
 
 ENV ASUSER='' \
     UID='' \
-    VM_OPTIONS_XMS=256m \
     VM_OPTIONS_XMX=256m \
-    VM_OPTIONS_MAX_METASPACE_SIZE=512m \
+    VM_OPTIONS_MAX_METASPACE_SIZE=128m \
     VM_OPTIONS_XMN=64m \
     VM_OPTIONS_SURVIVOR_RATIO=128 \
     CMS_TRIGGER_PERCENT=70 \
@@ -15,6 +14,8 @@ ENV ASUSER='' \
     TZ='' \
     JAVA_OPTIONS='' \
     ENTRYPOINT='' \
+    VM_OPTIONS_METASPACE_SIZE=128m \
+    VM_OPTIONS_XMS=256m \
     JAR_FILE='/app/application.jar'
 
 WORKDIR /app
@@ -30,6 +31,7 @@ RUN adduser -D -u 1337 kool \
     && apk add --no-cache su-exec bash shadow tzdata \
     && apk del .build-deps \
     && rm -rf /var/cache/apk/* /tmp/*
+
 
 COPY kool.vmoptions /kool/kool.tmpl
 COPY entrypoint /kool/entrypoint
